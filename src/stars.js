@@ -26,13 +26,13 @@
       canvas.height = Math.floor(h * pr);
       ctx.setTransform(pr, 0, 0, pr, 0, 0);
 
-      // количество звёзд ~ площади
+
       const target = Math.floor(w * h * cfg.density);
       stars = Array.from({ length: target }, () => ({
         x: Math.random() * w,
         y: Math.random() * h,
         r: rnd(cfg.sizeMin, cfg.sizeMax),
-        p: Math.random() * Math.PI * 2, // фаза для мигания
+        p: Math.random() * Math.PI * 2,
       }));
     }
 
@@ -42,7 +42,7 @@
 
       for (let i = 0; i < stars.length; i++) {
         const s = stars[i];
-        // лёгкое "мигание"
+     
         const tw = 0.6 + 0.4 * Math.sin(t + s.p);
         ctx.beginPath();
         ctx.arc(s.x, s.y, s.r * tw, 0, Math.PI * 2);
@@ -57,7 +57,7 @@
     resize();
     draw();
 
-    // вернуть disposer на всякий случай
+
     return () => {
       cancelAnimationFrame(raf);
       ro.disconnect();
@@ -65,7 +65,7 @@
     };
   }
 
-  // экспорт в глобал
+
   window.initStars = initStars;
 })();
 

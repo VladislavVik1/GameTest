@@ -1,9 +1,7 @@
-// Game3x3.js
-// Полный перенос JSX в чистый JS (ES-модуль) без React/Framer.
-// Совместим с твоим main.js: `import { initGame3x3 } from "./Game3x3.js";`
+
 
 export function initGame3x3(root) {
-  // ---------- assets ----------
+
   const ASSET = (name) => new URL(`./assets/${name}`, import.meta.url).href;
 
   const moneyPng     = ASSET('money.png');
@@ -17,7 +15,7 @@ export function initGame3x3(root) {
   const GoodsPng     = ASSET('Goods.png');
   const StockPng     = ASSET('Stock.png');
 
-  // ---------- types, helpers ----------
+
   const CELL_TYPES = { CASH: "cash", BOMB: "bomb", X2: "x2", ZERO: "zero", STOP: "stop" };
 
   const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
@@ -66,11 +64,11 @@ export function initGame3x3(root) {
     return c;
   }
 
-  // ---------- state ----------
+
   let deck = createDeck();
   let revealed = Array(9).fill(false);
   let multiplier = 1;
-  let baseBalance = 0;       // сумма CASH без множителя
+  let baseBalance = 0;       
   let bombHit = false;
   let claimOpen = false;
   let bombOpen = false;
@@ -81,7 +79,6 @@ export function initGame3x3(root) {
   const countsTotal = countTypes(deck);
   let countsFound = { cash:0,x2:0,zero:0,bomb:0,stop:0 };
 
-  // ---------- base layout ----------
   root.innerHTML = `
     <div class="h-screen w-full text-slate-100 overflow-y-auto flex justify-center items-start relative">
       <div class="absolute inset-0 bg-board-gradient"></div>
@@ -196,7 +193,7 @@ export function initGame3x3(root) {
     </div>
   `;
 
-  // ---------- refs ----------
+
   const gridEl        = root.querySelector("#grid");
   const panelCountsEl = root.querySelector("#panelCounts");
   const multBoxEl     = root.querySelector("#multBox");
@@ -212,7 +209,7 @@ export function initGame3x3(root) {
   const bombSumEl     = root.querySelector("#bombSum");
   const stopSumEl     = root.querySelector("#stopSum");
 
-  // ---------- UI helpers ----------
+ 
   function updateMultiplier(){
     multBoxEl.textContent = `x${multiplier}`;
     show(multBoxEl, multiplier>1);
@@ -250,7 +247,7 @@ export function initGame3x3(root) {
 
   function MoneyImg(cls="w-12 h-12"){ const i=el("img",cls); i.src=moneyPng; i.draggable=false; return i; }
 
-  // ---------- grid / cells ----------
+
   function cellFront() {
     const front = el("div","absolute inset-0 backface-hidden grid place-items-center rounded-2xl bg-cell-idle border border-white/10 shadow-card");
     const glyph = el("span","cell-glyph","$");
@@ -303,7 +300,7 @@ export function initGame3x3(root) {
       d.append(rays,iconWrap);
       return d;
     }
-    // BOMB
+
     const d = el("div", `${base} text-white font-bold text-lg relative overflow-hidden`);
     d.style.width="100%"; d.style.height="100%"; d.style.borderRadius="12px";
     d.style.background = "linear-gradient(180deg,#ff8a8a 0%,#ff4040 50%,#a60000 100%)";
@@ -341,7 +338,7 @@ export function initGame3x3(root) {
     root.querySelector("#boardWrap").classList.toggle("splash", flash);
   }
 
-  // ---------- reveal logic ----------
+
   function openAll(){
     revealed = Array(9).fill(true);
     renderBoard();
@@ -355,7 +352,7 @@ export function initGame3x3(root) {
 
     const card = deck[idx];
 
-    // counts
+ 
     if (card.type===CELL_TYPES.CASH) countsFound.cash++;
     else if (card.type===CELL_TYPES.X2) countsFound.x2++;
     else if (card.type===CELL_TYPES.ZERO) countsFound.zero++;
@@ -363,7 +360,7 @@ export function initGame3x3(root) {
     else if (card.type===CELL_TYPES.STOP) countsFound.stop++;
     renderPanelCounts();
 
-    // logic
+
     if (card.type === CELL_TYPES.CASH) {
       baseBalance += card.value;
       updateBalanceDisplays();
@@ -396,9 +393,8 @@ export function initGame3x3(root) {
     }
   }
 
-  // ---------- flying coins ----------
   function FlyingCoins(start, end, onComplete) {
-    const delays = [0, 60, 120, 180, 240]; // ms
+    const delays = [0, 60, 120, 180, 240]; 
     let done = 0;
     delays.forEach((delay) => {
       const coin = el("img","pointer-events-none fixed top-0 left-0 z-[70] w-12 h-12");
@@ -431,7 +427,7 @@ export function initGame3x3(root) {
     FlyingCoins(start, end);
   }
 
-  // ---------- modals ----------
+
   function fillClaimList(){
     const opened = deck.filter((_,i)=> revealed[i]);
     claimListEl.innerHTML = "";
@@ -460,10 +456,10 @@ export function initGame3x3(root) {
   function openStop(){ stopOpen=true; updateBalanceDisplays(); show(modalStop,true); }
   function closeStop(){ stopOpen=false; show(modalStop,false); }
 
-  // ---------- controls ----------
+
   btnClaimEl.addEventListener("click", openClaim);
 
-  // Фон закрывает модалки
+
   [modalClaim, modalBomb, modalStop].forEach(m=>{
     m.addEventListener("click",(e)=>{ const id=e.target.getAttribute("data-close"); if(id) show(root.querySelector("#"+id), false); });
   });
@@ -480,7 +476,7 @@ export function initGame3x3(root) {
   });
 
   root.querySelector("#btnTakeHit").addEventListener("click", ()=>{
-    // теряем весь выигрыш этого поля
+
     baseBalance = 0;
     multiplier = 1;
     updateMultiplier();
@@ -495,7 +491,7 @@ export function initGame3x3(root) {
     closeBomb();
   });
 
-  // ---------- nav (макет) ----------
+
   const navBar = root.querySelector("#navBar");
   [
     {img:OfficePng,label:"Office"},
@@ -510,7 +506,7 @@ export function initGame3x3(root) {
     b.append(i,s); navBar.append(b);
   });
 
-  // ---------- reset / start ----------
+
   function reset(newDeck=true){
     if (newDeck) deck = createDeck();
     revealed = Array(9).fill(false);
@@ -530,7 +526,6 @@ export function initGame3x3(root) {
     btnClaimEl.disabled = true;
   }
 
-  // ---------- CSS helpers (3D) ----------
   injectOnce("flip3d-css", `
     .perspective { perspective: 900px; }
     .preserve-3d { transform-style: preserve-3d; }
@@ -543,7 +538,7 @@ export function initGame3x3(root) {
     const s=document.createElement("style"); s.id=id; s.textContent=css; document.head.appendChild(s);
   }
 
-  // ---------- init ----------
+
   updateMultiplier();
   updateBalanceDisplays();
   renderPanelCounts();

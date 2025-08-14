@@ -1,4 +1,4 @@
-// src/main.js
+
 import "./styles.css";
 import "./stars.css";
 import { initGame3x3 } from "./Game3x3.js";

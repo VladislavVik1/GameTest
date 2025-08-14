@@ -1,10 +1,10 @@
-/* ===== Звёзды под мобилку ===== */
+
 .stars {
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  opacity: 0.55; /* чуть тише для маленьких экранов */
+  opacity: 0.55; 
   background-image:
     radial-gradient(0.8px 0.8px at 12% 18%, rgba(255, 255, 255, 0.9) 50%, transparent 51%),
     radial-gradient(0.8px 0.8px at 28% 76%, rgba(255, 255, 255, 0.8) 50%, transparent 51%),
@@ -25,7 +25,6 @@
   }
 }
 
-/* На больших экранах используем старые значения */
 @media (min-width: 481px) {
   .stars {
     opacity: 0.65;
