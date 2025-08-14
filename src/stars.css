@@ -1,0 +1,40 @@
+/* ===== Звёзды под мобилку ===== */
+.stars {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.55; /* чуть тише для маленьких экранов */
+  background-image:
+    radial-gradient(0.8px 0.8px at 12% 18%, rgba(255, 255, 255, 0.9) 50%, transparent 51%),
+    radial-gradient(0.8px 0.8px at 28% 76%, rgba(255, 255, 255, 0.8) 50%, transparent 51%),
+    radial-gradient(1px 1px at 52% 14%, rgba(255, 255, 255, 0.85) 50%, transparent 51%),
+    radial-gradient(0.8px 0.8px at 74% 52%, rgba(255, 255, 255, 0.75) 50%, transparent 51%),
+    radial-gradient(1.2px 1.2px at 88% 36%, rgba(255, 255, 255, 0.85) 50%, transparent 51%),
+    radial-gradient(0.8px 0.8px, rgba(255, 255, 255, 0.65) 50%, transparent 51%);
+  background-size: 300px 300px, 320px 320px, 280px 280px, 360px 360px, 380px 380px, 2px 2px;
+  animation: starsFloatMobile 36s linear infinite;
+}
+
+@keyframes starsFloatMobile {
+  0% {
+    background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
+  }
+  100% {
+    background-position: 300px 150px, -320px 160px, 280px -140px, -360px 180px, 380px -190px, 0 0;
+  }
+}
+
+/* На больших экранах используем старые значения */
+@media (min-width: 481px) {
+  .stars {
+    opacity: 0.65;
+    background-size: 420px 420px, 440px 440px, 380px 380px, 520px 520px, 540px 540px, 3px 3px;
+    animation: starsFloat 36s linear infinite;
+  }
+
+  @keyframes starsFloat {
+    0% { background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0; }
+    100% { background-position: 420px 210px, -440px 220px, 380px -190px, -520px 260px, 540px -270px, 0 0; }
+  }
+}
